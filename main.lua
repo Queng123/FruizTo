@@ -28,7 +28,7 @@ function createBackground()
     gameAreaY = (love.graphics.getHeight() - gameAreaHeight) / 2
 end
 
-function init_map()
+function initMap()
     platformY = gameAreaY + gameAreaHeight - 20
     platformHeight = 20
 
@@ -39,14 +39,17 @@ function init_map()
     thirdPlatformWidth = 20
 end
 
-function loadGame()
-    createBackground()
-    init_map()
-
+function initCursor()
     cursorX = gameAreaX + gameAreaWidth / 2
     cursorY = gameAreaY + 30
-    cursorSpeed = 100 -- Vitesse du curseur en pixels par seconde
-    cursorDirection = 1 -- Direction initiale vers la droite
+    cursorSpeed = 100
+    cursorDirection = 1
+end
+
+function loadGame()
+    createBackground()
+    initMap()
+    initCursor()
 end
 
 function loadMenu()

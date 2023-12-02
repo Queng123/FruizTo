@@ -4,99 +4,129 @@ fruits = {}
 score = 0
 collisionDetected = false
 
-function love.load()
-    -- Création du monde
-    world = wf.newWorld(0, 512, true)
-    world:addCollisionClass('Platform')
-    world:addCollisionClass('Player')
-    
-    -- Création des éléments du jeu
-    createGround()
-    createPlatform()
-    createPlayer()
+GameState = {
+    MENU = 1,
+    GAME = 2
+}
 
-    -- Définition de la fonction de pré-solve pour la plateforme
-    player:setPreSolve(playerPlatformPreSolve)
+local colors = {
+    Green = {0.1, 0.8, 0.1, 0.9},
+    backgroundColor = {0.2, 0.2, 0.2, 1.0},
+    Red = {1.0, 0.0, 0.0, 1.0},
+}
+
+currentState = GameState.MENU
+
+function createBackground()
+    background = love.graphics.newImage("assets/game_background.png")
+    backgroundWidth = 800
+    backgroundHeight = 600
+
+    gameAreaWidth = 600
+    gameAreaHeight = 400
+    gameAreaX = (love.graphics.getWidth() - gameAreaWidth) / 2
+    gameAreaY = (love.graphics.getHeight() - gameAreaHeight) / 2
+end
+
+function init_map()
+    platformY = gameAreaY + gameAreaHeight - 20
+    platformHeight = 20
+
+    secondPlatformX = gameAreaX + 50
+    secondPlatformWidth = 20
+
+    thirdPlatformX = gameAreaX + gameAreaWidth - 140
+    thirdPlatformWidth = 20
+end
+
+function loadGame()
+    createBackground()
+    init_map()
+
+    cursorX = gameAreaX + gameAreaWidth / 2
+    cursorY = gameAreaY + 30
+    cursorSpeed = 100 -- Vitesse du curseur en pixels par seconde
+    cursorDirection = 1 -- Direction initiale vers la droite
+end
+
+function loadMenu()
+    --nothing
+end
+
+function love.load()
+    loadMenu()
+    loadGame()
+end
+
+function handleInputGame(key)
+    -- nothing for the moment
+end
+
+function handleInputMenu(key)
+    if key == 'space' then
+        currentState = GameState.GAME
+    end
 end
 
 function love.keypressed(key)
-    -- Gestion des touches pressées
-    if key == 'space' then
-        player:applyLinearImpulse(0, -1000)
-    elseif key == 'r' then
-        resetPlayerPosition()
-    elseif key == 'escape' then
-        love.event.quit()
-    elseif key == 'q' then
-        player:applyLinearImpulse(-200, 0)
-    elseif key == 'd' then
-        player:applyLinearImpulse(200, 0)
+    if (currentState == GameState.GAME) then
+        handleInputGame(key)
+    elseif (currentState == GameState.MENU) then
+        handleInputMenu(key)
     end
+end
+
+function updateGame(dt)
+    cursorX = cursorX + cursorDirection * cursorSpeed * dt
+
+    if cursorX <= gameAreaX + 80 or cursorX >= gameAreaX + gameAreaWidth - 80 then
+        cursorDirection = -cursorDirection
+    end
+
+    triangleVertices = {
+        cursorX, cursorY,
+        cursorX - 10,cursorY - 20,
+        cursorX + 10,cursorY - 20
+    }
+end
+
+function updateMenu(dt)
+    -- For the moment nothing to update
 end
 
 function love.update(dt)
-    -- Mise à jour du monde
-    world:update(dt)
-
-    -- Génération de fruits aléatoires
-    if love.timer.getTime() % 1 == 0 then
-        generateRandomRectangles()
+    if (currentState == GameState.GAME) then
+        updateGame(dt)
+    elseif (currentState == GameState.MENU) then
+        updateMenu(dt)
     end
+end
 
-    -- Gestion des collisions avec les fruits
-    handleFruitCollisions()
+function drawGame()
+    love.graphics.setColor(0.1, 0.1, 0.1, 0.9)
+    love.graphics.rectangle("fill", gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight)
 
-    -- Mise à jour du score et destruction des fruits touchant le sol
-    updateScoreAndDestroyFruits()
+    love.graphics.setColor(colors.Green)
+    love.graphics.rectangle("fill", gameAreaX + 50, platformY - 20, gameAreaWidth - 100, platformHeight)
+    love.graphics.rectangle("fill", secondPlatformX, gameAreaY + 60, secondPlatformWidth, gameAreaHeight - 100)
+    love.graphics.rectangle("fill", thirdPlatformX + 70, gameAreaY + 60, thirdPlatformWidth, gameAreaHeight - 100)
+
+    love.graphics.setColor(colors.Red)
+    love.graphics.polygon("fill", triangleVertices)
+
+    love.graphics.setColor(1, 1, 1, 0.8)
+end
+
+function drawMenu()
+    -- nothing
 end
 
 function love.draw()
-    -- Affichage du monde et du score
-    world:draw()
-    love.graphics.print("Score: " .. score, 10, 10)
-end
+    love.graphics.draw(background, 0, 0, 0, backgroundWidth / background:getWidth(), backgroundHeight / background:getHeight())
 
--- Fonctions utilitaires
-
-function createGround()
-    ground = world:newRectangleCollider(100, 500, 600, 50)
-    ground:setType('static')
-end
-
-function createPlatform()
-    platform = world:newRectangleCollider(350, 400, 100, 20)
-    platform:setType('static')
-    platform:setCollisionClass('Platform')
-end
-
-function createPlayer()
-    player = world:newRectangleCollider(390, 450, 20, 40)
-    player:setCollisionClass('Player')
-end
-
-function playerPlatformPreSolve(collider_1, collider_2, contact)
-    if collider_1.collision_class == 'Player' and collider_2.collision_class == 'Platform' then
-        local px, py = collider_1:getPosition()
-        local pw, ph = 20, 40
-        local tx, ty = collider_2:getPosition()
-        local tw, th = 100, 20
-        if py + ph/2 > ty - th/2 then contact:setEnabled(false) end
+    if (currentState == GameState.GAME) then
+        drawGame()
+    elseif (currentState == GameState.MENU) then
+        drawMenu()
     end
-end
-
-function resetPlayerPosition()
-    player:setPosition(390, 450)
-    player:setLinearVelocity(0, 0)
-end
-
-function generateRandomRectangles()
-    -- Implementation de la génération aléatoire des rectangles (à compléter selon votre logique)
-end
-
-function handleFruitCollisions()
-    -- Gestion des collisions avec les fruits (à compléter selon votre logique)
-end
-
-function updateScoreAndDestroyFruits()
-    -- Mise à jour du score et destruction des fruits touchant le sol (à compléter selon votre logique)
 end

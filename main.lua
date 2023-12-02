@@ -1,9 +1,22 @@
 ballTypes = require 'balls'
 
-local world = love.physics.newWorld(0, 9.81*64, true)
-local balls = {}
+balls = {}
+score = 0
+local sound = love.audio.newSource("Echoes.wav", "static")
 
--- Create balls
+GameState = {
+    MENU = 1,
+    GAME = 2
+}
+
+local colors = {
+    Green = {0.1, 0.8, 0.1, 0.9},
+    backgroundColor = {0.2, 0.2, 0.2, 1.0},
+    Red = {1.0, 0.0, 0.0, 1.0},
+}
+
+currentState = GameState.MENU
+
 function spawnNewBall(ballType, x, y)
     local ball = {
         size = ballType.size, 
@@ -18,35 +31,113 @@ function spawnNewBall(ballType, x, y)
     table.insert(balls, ball)
 end
 
-spawnNewBall(ballTypes.forretress, 100, 200)
-spawnNewBall(ballTypes.jigglypuff, 200, 200)
-spawnNewBall(ballTypes.mareep, 320, 200)
-spawnNewBall(ballTypes.solrock, 460, 200)
-spawnNewBall(ballTypes.whirlipede, 620, 200)
+function createBackground()
+    background = love.graphics.newImage("assets/game_background.png")
+    backgroundWidth = 800
+    backgroundHeight = 600
 
--- Create walls and floor
-local walls = {}
-for i=1,3 do
-    walls[i] = {}
-    walls[i].body = love.physics.newBody(world, 0, 0, 'static')
-    if i == 1 then
-        -- floor
-        walls[i].shape = love.physics.newRectangleShape(400, 575, 800, 50)
-    elseif i == 2 then
-        -- left wall
-        walls[i].shape = love.physics.newRectangleShape(25, 300, 50, 600)
-    else
-        -- right wall
-        walls[i].shape = love.physics.newRectangleShape(775, 300, 50, 600)
-    end
-    walls[i].fixture = love.physics.newFixture(walls[i].body, walls[i].shape)
+    gameAreaWidth = 600
+    gameAreaHeight = 400
+    gameAreaX = (love.graphics.getWidth() - gameAreaWidth) / 2
+    gameAreaY = (love.graphics.getHeight() - gameAreaHeight) / 2
 end
 
--- Draw the ball and walls
-function love.draw()
-    for i=1,3 do
-        love.graphics.polygon('line', walls[i].body:getWorldPoints(walls[i].shape:getPoints()))
+function initMap()
+    platformY = gameAreaY + gameAreaHeight - 20
+    platformHeight = 20
+
+    secondPlatformX = gameAreaX + 50
+    secondPlatformWidth = 20
+
+    thirdPlatformX = gameAreaX + gameAreaWidth - 140
+    thirdPlatformWidth = 20
+end
+
+function initCursor()
+    cursorX = gameAreaX + gameAreaWidth / 2
+    cursorY = gameAreaY + 30
+    cursorSpeed = 100
+    cursorDirection = 1
+end
+
+function loadGame()
+    createBackground()
+    initMap()
+    initCursor()
+end
+
+function loadMenu()
+    --nothing
+end
+
+function loadSounds()
+    -- Lancement de la musique
+    love.audio.play(sound)
+end
+
+function love.load()
+    loadMenu()
+    loadGame()
+    loadSounds()
+end
+
+function handleInputGame(key)
+    -- nothing for the moment
+end
+
+function handleInputMenu(key)
+    if key == 'space' then
+        currentState = GameState.GAME
     end
+end
+
+function love.keypressed(key)
+    if (currentState == GameState.GAME) then
+        handleInputGame(key)
+    elseif (currentState == GameState.MENU) then
+        handleInputMenu(key)
+    end
+end
+
+function updateGame(dt)
+    cursorX = cursorX + cursorDirection * cursorSpeed * dt
+
+    if cursorX <= gameAreaX + 80 or cursorX >= gameAreaX + gameAreaWidth - 80 then
+        cursorDirection = -cursorDirection
+    end
+
+    triangleVertices = {
+        cursorX, cursorY,
+        cursorX - 10,cursorY - 20,
+        cursorX + 10,cursorY - 20
+    }
+end
+
+function updateMenu(dt)
+    -- For the moment nothing to update
+end
+
+function love.update(dt)
+    if (currentState == GameState.GAME) then
+        updateGame(dt)
+    elseif (currentState == GameState.MENU) then
+        updateMenu(dt)
+    end
+end
+
+function drawGame()
+    love.graphics.setColor(0.1, 0.1, 0.1, 0.9)
+    love.graphics.rectangle("fill", gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight)
+
+    love.graphics.setColor(colors.Green)
+    love.graphics.rectangle("fill", gameAreaX + 50, platformY - 20, gameAreaWidth - 100, platformHeight)
+    love.graphics.rectangle("fill", secondPlatformX, gameAreaY + 60, secondPlatformWidth, gameAreaHeight - 100)
+    love.graphics.rectangle("fill", thirdPlatformX + 70, gameAreaY + 60, thirdPlatformWidth, gameAreaHeight - 100)
+
+    love.graphics.setColor(colors.Red)
+    love.graphics.polygon("fill", triangleVertices)
+
+    love.graphics.setColor(1, 1, 1)
     for i, ball in ipairs(balls) do
         local scaleX = ball.size * 2 / (ball.texture:getWidth() - 30)
         local scaleY = ball.size * 2 / (ball.texture:getHeight() - 30)
@@ -54,7 +145,16 @@ function love.draw()
     end
 end
 
--- Update the physics world
-function love.update(dt)
-    world:update(dt)
+function drawMenu()
+    -- nothing
+end
+
+function love.draw()
+    love.graphics.draw(background, 0, 0, 0, backgroundWidth / background:getWidth(), backgroundHeight / background:getHeight())
+
+    if (currentState == GameState.GAME) then
+        drawGame()
+    elseif (currentState == GameState.MENU) then
+        drawMenu()
+    end
 end

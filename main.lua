@@ -1,8 +1,7 @@
-wf = require 'windfield'
+ballTypes = require 'balls'
 
-fruits = {}
+balls = {}
 score = 0
-collisionDetected = false
 local sound = love.audio.newSource("Echoes.wav", "static")
 
 GameState = {
@@ -17,6 +16,20 @@ local colors = {
 }
 
 currentState = GameState.MENU
+
+function spawnNewBall(ballType, x, y)
+    local ball = {
+        size = ballType.size, 
+        points = ballType.points, 
+        texturePath = ballType.texturePath
+    }
+    ball.body = love.physics.newBody(world, x, y, 'dynamic')
+    ball.shape = love.physics.newCircleShape(ball.size)
+    ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
+    ball.fixture:setRestitution(0.4)
+    ball.texture = love.graphics.newImage(ball.texturePath)
+    table.insert(balls, ball)
+end
 
 function createBackground()
     background = love.graphics.newImage("assets/game_background.png")
@@ -124,7 +137,12 @@ function drawGame()
     love.graphics.setColor(colors.Red)
     love.graphics.polygon("fill", triangleVertices)
 
-    love.graphics.setColor(1, 1, 1, 0.8)
+    love.graphics.setColor(1, 1, 1)
+    for i, ball in ipairs(balls) do
+        local scaleX = ball.size * 2 / (ball.texture:getWidth() - 30)
+        local scaleY = ball.size * 2 / (ball.texture:getHeight() - 30)
+        love.graphics.draw(ball.texture, ball.body:getX(), ball.body:getY(), 0, scaleX, scaleY, ball.texture:getWidth()/2, ball.texture:getHeight()/2)
+    end
 end
 
 function drawMenu()

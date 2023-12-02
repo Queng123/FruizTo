@@ -3,6 +3,7 @@ wf = require 'windfield'
 fruits = {}
 score = 0
 collisionDetected = false
+local sound = love.audio.newSource("Echoes.wav", "static")
 
 GameState = {
     MENU = 1,
@@ -56,9 +57,15 @@ function loadMenu()
     --nothing
 end
 
+function loadSounds()
+    -- Lancement de la musique
+    love.audio.play(sound)
+end
+
 function love.load()
     loadMenu()
     loadGame()
+    loadSounds()
 end
 
 function handleInputGame(key)

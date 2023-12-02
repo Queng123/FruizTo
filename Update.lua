@@ -12,6 +12,8 @@ function Update.updateGame(dt)
         cursorX - 10,cursorY - 20,
         cursorX + 10,cursorY - 20
     }
+
+    world:update(dt)
 end
 
 function Update.updateMenu(dt)

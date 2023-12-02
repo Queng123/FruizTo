@@ -7,6 +7,7 @@ end
 function HandleKeyPressed.handleInputMenu(key)
     if key == 'space' then
         currentState = GameState.GAME
+        spawnNewBall(BallTypes.Forretress, 200, 200)
     end
 end
 

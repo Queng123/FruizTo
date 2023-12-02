@@ -3,6 +3,7 @@ wf = require 'windfield'
 fruits = {}
 score = 0
 collisionDetected = false
+local sound = love.audio.newSource("Echoes.wav", "static")
 
 function love.load()
     -- Création du monde
@@ -17,6 +18,9 @@ function love.load()
 
     -- Définition de la fonction de pré-solve pour la plateforme
     player:setPreSolve(playerPlatformPreSolve)
+
+    -- Lancement de la musique
+    love.audio.play(sound)
 end
 
 function love.keypressed(key)

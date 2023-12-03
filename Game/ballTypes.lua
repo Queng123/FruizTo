@@ -7,41 +7,49 @@ BallTypes.Forretress = {
     texturePath = "assets/forretress.png"
 }
 
-BallTypes.Jigglypuff = {
-    name = "Jigglypuff",
-    size = 30,
-    points = 2,
-    texturePath = "assets/jigglypuff.png"
-}
-
 BallTypes.Mareep = {
     name = "Mareep",
-    size = 40,
-    points = 4,
+    size = 30,
+    points = 2,
     texturePath = "assets/mareep.png"
 }
 
 BallTypes.Solrock = {
     name = "Solrock",
-    size = 50,
-    points = 8,
+    size = 40,
+    points = 4,
     texturePath = "assets/solrock.png"
 }
 
 BallTypes.Whirlipede = {
     name = "Whirlipede",
+    size = 50,
+    points = 8,
+    texturePath =  "assets/whirlipede.png"
+}
+
+BallTypes.Pikachu = {
+    name = "Pikachu",
     size = 60,
     points = 16,
-    texturePath =  "assets/whirlipede.png"
+    texturePath = "assets/pikachu.png"
+}
+
+BallTypes.Jigglypuff = {
+    name = "Jigglypuff",
+    size = 70,
+    points = 32,
+    texturePath = "assets/jigglypuff.png"
 }
 
 -- Définir la séquence de fusion
 BallTypes.mergeSequence = {
     BallTypes.Forretress,
-    BallTypes.Jigglypuff,
     BallTypes.Mareep,
     BallTypes.Solrock,
     BallTypes.Whirlipede,
+    BallTypes.Pikachu,
+    BallTypes.Jigglypuff
 }
 
 BallTypes.merge = function(ballType1, ballType2)

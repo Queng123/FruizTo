@@ -1,11 +1,11 @@
-ballTypes = require 'balls'
-
+require "BallTypes"
 require "Load"
 require "HandleKeyPressed"
 require "Update"
 require "Init"
 require "Draw"
 
+world = love.physics.newWorld(0, 9.81*64, true)
 balls = {}
 score = 0
 

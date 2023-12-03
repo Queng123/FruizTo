@@ -16,7 +16,7 @@ function LoadGame.spawnNewBall(ballType, x, y)
     ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
     ball.fixture:setRestitution(0.4)
     ball.texture = love.graphics.newImage(ball.texturePath)
-    table.insert(balls, ball)
+    table.insert(newBalls, ball)
 end
 
 function LoadGame.initMap()

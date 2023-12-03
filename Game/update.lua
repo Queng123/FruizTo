@@ -4,22 +4,6 @@ newBalls = {}
 
 require "Game/load"
 
-local mergeTable = {
-    Forretress = {
-        Forretress = BallTypes.Jigglypuff,
-    },
-    Jigglypuff = {
-        Jigglypuff = BallTypes.Mareep,
-    },
-    Mareep = {
-        Mareep = BallTypes.Solrock,
-    },
-    Solrock = {
-        Solrock = BallTypes.Whirlipede,
-    },
-}
-
-
 function UpdateGame.getRandomBallType()
     local randomIndex = math.random(1, 3) -- Obtient un indice aléatoire
     return ballTypesList[randomIndex] -- Retourne le type de balle à cet indice
@@ -50,48 +34,44 @@ function UpdateGame.UpdateCursor(dt)
     }
 end
 
-function getMergedType(ballType1, ballType2)
-    return mergeTable[ballType1.name] and mergeTable[ballType1.name][ballType2.name]
-end
-
 function UpdateGame.mergedBall(ball1, ball2, x, y)
-    local ballMerged = getMergedType(ball1, ball2)
+    local ballMergedType = BallTypes.Forretress
 
-    local text = "Boule fusionnée: " .. ball1.name .. " + " .. ball2.name .. " = " .. (ballMerged and ballMerged.name or "")
-    love.window.setTitle(text)
-
-    if ballMerged then
-        local ball = {
-            name = ballMerged.name,
-            size = ballMerged.size,
-            points = ballMerged.points,
-            texturePath = ballMerged.texturePath,
-        }
-        ball.body = love.physics.newBody(world, x, y, 'dynamic')
-        ball.shape = love.physics.newCircleShape(ball.size)
-        ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
-        ball.fixture:setRestitution(0.4)
-        ball.texture = love.graphics.newImage(ball.texturePath)
-        table.insert(newBalls, ball)
+    if ball1.name == ball2.name then
+        if ball1.name == "Forretress" then
+            ballMergedType = BallTypes.Jigglypuff
+        elseif ball1.name == "Jigglypuff" then
+            ballMergedType = BallTypes.Mareep
+        elseif ball1.name == "Mareep" then
+            ballMergedType = BallTypes.Solrock
+        elseif ball1.name == "Solrock" then
+            ballMergedType = BallTypes.Whirlipede
+        elseif ball1.name == "Whirlipede" then
+            ballMergedType = BallTypes.Forretress
+        end
     end
+
+    local text = ball1.name .. " + " .. ball2.name .. " = " .. ballMergedType.texturePath
+    love.window.setTitle(text)
+    -- LoadGame.spawnNewBall(ballMergedType, x, y)
 end
 
 function UpdateGame.RemoveBalls()
-    local markedForRemoval = {}
+    local markedForRemoval2 = {}
 
-    for i, ball1 in ipairs(balls) do
-        for j, ball2 in ipairs(balls) do
+    for i, ball1 in ipairs(newBalls) do
+        for j, ball2 in ipairs(newBalls) do
             if i ~= j and areBallsTouching(ball1, ball2) and ball1.name == ball2.name then
                 UpdateGame.mergedBall(ball1, ball1, (ball1.body:getX() + ball2.body:getX()) / 2, (ball1.body:getY() + ball2.body:getY()) / 2)
-                markedForRemoval[i] = true
-                markedForRemoval[j] = true
+                markedForRemoval2[i] = true
+                markedForRemoval2[j] = true
             end
         end
     end
 
-    for i = #balls, 1, -1 do
-        if markedForRemoval[i] then
-            local ball = table.remove(balls, i)
+    for i = #newBalls, 1, -1 do
+        if markedForRemoval2[i] then
+            local ball = table.remove(newBalls, i)
             if ball then
                 ball.body:destroy()
             end

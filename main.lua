@@ -15,7 +15,6 @@ require "Start/draw"
 require "Start/key"
 
 world = love.physics.newWorld(0, 9.81*64, true)
-balls = {}
 score = 0
 
 GameState = {

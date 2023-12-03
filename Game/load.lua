@@ -1,9 +1,7 @@
 LoadGame = {}
 
-local music = love.audio.newSource("assets/Echoes.wav", "static")
-
 function LoadGame.loadMusic()
-    love.audio.play(music)
+    game_music = love.audio.newSource("assets/Echoes.wav", "static")
 end
 
 function LoadGame.spawnNewBall(ballType, x, y)

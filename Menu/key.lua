@@ -2,6 +2,6 @@ KeyMenu = {}
 
 function KeyMenu.handleInputMenu(key)
     if key == 'space' then
-        currentState = GameState.GAME
+        state = state + 1
     end
 end

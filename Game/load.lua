@@ -1,9 +1,7 @@
 LoadGame = {}
 
-local music = love.audio.newSource("assets/Echoes.wav", "static")
-
 function LoadGame.loadMusic()
-    love.audio.play(music)
+    game_music = love.audio.newSource("assets/Echoes.wav", "static")
 end
 
 function LoadGame.spawnNewBall(ballType, x, y)
@@ -74,4 +72,9 @@ function LoadGame.loadGame()
 
     UpdateGame.handleBallQueue(UpdateGame.getRandomBallType())
     UpdateGame.handleBallQueue(UpdateGame.getRandomBallType())
+    triangleVertices = {
+        cursorX, cursorY,
+        cursorX - 10, cursorY - 20,
+        cursorX + 10, cursorY - 20
+    }
 end

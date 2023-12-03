@@ -19,7 +19,7 @@ function DrawGame.drawGame()
     love.graphics.setColor(0.1, 0.1, 0.1, 0.9)
     love.graphics.rectangle("fill", gameAreaX, 20, 220, 120)
     love.graphics.rectangle("fill", gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight)
-    love.graphics.rectangle("fill", 600, 20, 220, 120)
+    love.graphics.rectangle("fill", 480, 20, 220, 120)
 
     love.graphics.setColor(colors.Green)
     love.graphics.rectangle("fill", gameAreaX + 50, platformY - 20, gameAreaWidth - 100, platformHeight)
@@ -37,7 +37,7 @@ function DrawGame.drawGame()
         love.graphics.draw(newBall.texture, newBall.body:getX(), newBall.body:getY(), 0, scaleX, scaleY, newBall.texture:getWidth()/2, newBall.texture:getHeight()/2)
     end
 
-    love.graphics.print("Score: " .. score, scoreFont, 630, 50, 0, 1, 1, 0, 0, 0, 0)
+    love.graphics.print("Score: " .. score, scoreFont, 500, 60, 0, 1, 1, 0, 0, 0, 0)
 
     DrawGame.displayBallTypesInQueue()
 end

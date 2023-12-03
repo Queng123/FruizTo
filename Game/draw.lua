@@ -34,5 +34,13 @@ function DrawGame.drawGame()
         local scaleY = ball.size * 2 / (ball.texture:getHeight() - 30)
         love.graphics.draw(ball.texture, ball.body:getX(), ball.body:getY(), 0, scaleX, scaleY, ball.texture:getWidth()/2, ball.texture:getHeight()/2)
     end
+
+    -- Dessiner les nouvelles balles du tableau newBalls
+    for i, newBall in ipairs(newBalls) do
+        local scaleX = newBall.size * 2 / (newBall.texture:getWidth() - 30)
+        local scaleY = newBall.size * 2 / (newBall.texture:getHeight() - 30)
+        love.graphics.draw(newBall.texture, newBall.body:getX(), newBall.body:getY(), 0, scaleX, scaleY, newBall.texture:getWidth()/2, newBall.texture:getHeight()/2)
+    end
+
     DrawGame.displayBallTypesInQueue()
 end

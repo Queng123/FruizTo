@@ -35,16 +35,26 @@ BallTypes.Whirlipede = {
     texturePath =  "assets/whirlipede.png"
 }
 
+-- Définir la séquence de fusion
+BallTypes.mergeSequence = {
+    BallTypes.Forretress,
+    BallTypes.Jigglypuff,
+    BallTypes.Mareep,
+    BallTypes.Solrock,
+    BallTypes.Whirlipede,
+}
+
 BallTypes.merge = function(ballType1, ballType2)
-    if ballType1 == BallTypes.Forretress and ballType2 == BallTypes.Forretress then
-        return BallTypes.Jigglypuff
-    elseif ballType1 == BallTypes.Jigglypuff and ballType2 == BallTypes.Jigglypuff then
-        return BallTypes.Mareep
-    elseif ballType1 == BallTypes.Mareep and ballType2 == BallTypes.Mareep then
-        return BallTypes.Solrock
-    elseif ballType1 == BallTypes.Solrock and ballType2 == BallTypes.Solrock then
-        return BallTypes.Whirlipede
-    else
-        return BallTypes.Forretress
+    if ballType1 == ballType2 then
+        local currentIndex 
+        for i, ballType in ipairs(BallTypes.mergeSequence) do
+            if ballType1 == ballType then
+                currentIndex = i
+                break
+            end
+        end
+        local nextIndex = (currentIndex % #BallTypes.mergeSequence) + 1
+        return BallTypes.mergeSequence[nextIndex]
     end
+    return BallTypes.mergeSequence[1]
 end

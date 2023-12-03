@@ -6,6 +6,7 @@ end
 
 function LoadGame.spawnNewBall(ballType, x, y)
     local ball = {
+        name = ballType.name,
         size = ballType.size,
         points = ballType.points,
         texturePath = ballType.texturePath

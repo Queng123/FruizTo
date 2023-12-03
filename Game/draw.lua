@@ -26,7 +26,7 @@ function DrawGame.drawGame()
     love.graphics.rectangle("fill", thirdPlatformX + 70, gameAreaY + 60, thirdPlatformWidth, gameAreaHeight - 100)
 
     love.graphics.setColor(colors.Red)
-    -- love.graphics.polygon("fill", triangleVertices)
+    love.graphics.polygon("fill", triangleVertices)
 
     love.graphics.setColor(1, 1, 1)
     for i, ball in ipairs(balls) do

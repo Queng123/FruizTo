@@ -46,6 +46,7 @@ function DrawMenu.drawMenu()
         love.graphics.setColor(color)
         love.graphics.print("Appuie sur \"espace\" planer encore plus loin", 10, 550)
         love.graphics.setColor(1, 1, 1)
+        love.graphics.draw(smoke, smokeX, smokeY, 0, 0.5, 0.5)
     end
     if state == 9 then
         if animation_state >= 0 then

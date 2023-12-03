@@ -6,6 +6,20 @@ function LoadGame.loadMusic()
     love.audio.play(music)
 end
 
+function LoadGame.spawnNewBall(ballType, x, y)
+    local ball = {
+        size = ballType.size,
+        points = ballType.points,
+        texturePath = ballType.texturePath
+    }
+    ball.body = love.physics.newBody(world, x, y, 'dynamic')
+    ball.shape = love.physics.newCircleShape(ball.size)
+    ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
+    ball.fixture:setRestitution(0.4)
+    ball.texture = love.graphics.newImage(ball.texturePath)
+    table.insert(balls, ball)
+end
+
 function LoadGame.initMap()
     platformY = gameAreaY + gameAreaHeight - 20
     platformHeight = 20
@@ -51,6 +65,8 @@ function LoadGame.createBackground()
 end
 
 function LoadGame.loadGame()
+    LoadGame.spawnNewBall(BallTypes.Jigglypuff, 200, 200)
+    LoadGame.spawnNewBall(BallTypes.Jigglypuff, 220, 100)
     LoadGame.createBackground()
     LoadGame.initMap()
     LoadGame.initCursor()

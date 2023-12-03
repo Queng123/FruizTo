@@ -30,26 +30,24 @@ BallTypes.Whirlipede = {
 
 BallTypes.Pikachu = {
     name = "Pikachu",
-    size = 60,
+    size = 30,
     points = 16,
     texturePath = "assets/pikachu.png"
 }
 
 BallTypes.Jigglypuff = {
     name = "Jigglypuff",
-    size = 70,
+    size = 30,
     points = 32,
     texturePath = "assets/jigglypuff.png"
 }
 
--- Définir la séquence de fusion
 BallTypes.mergeSequence = {
     BallTypes.Forretress,
     BallTypes.Mareep,
     BallTypes.Solrock,
-    BallTypes.Whirlipede,
     BallTypes.Pikachu,
-    BallTypes.Jigglypuff
+    BallTypes.Jigglypuff,
 }
 
 BallTypes.merge = function(ballType1, ballType2)

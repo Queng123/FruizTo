@@ -1,9 +1,10 @@
 KeyGame = {}
 
-require 'Game/load'
-
 function KeyGame.handleInputGame(key)
     if key == 'x' then
-        LoadGame.spawnNewBall(BallTypes.Forretress, cursorX, cursorY)
+        local ballToSpawn = ballQueue[1]
+        LoadGame.spawnNewBall(ballToSpawn, cursorX, cursorY)
+        local randomBallType = UpdateGame.getRandomBallType()
+        UpdateGame.handleBallQueue(randomBallType)
     end
 end

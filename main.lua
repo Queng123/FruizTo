@@ -9,13 +9,19 @@ require "Menu/update"
 require "Menu/draw"
 require "Menu/key"
 
+require "Start/load"
+require "Start/update"
+require "Start/draw"
+require "Start/key"
+
 world = love.physics.newWorld(0, 9.81*64, true)
 balls = {}
 score = 0
 
 GameState = {
     MENU = 1,
-    GAME = 2
+    GAME = 2,
+    START = 4,
 }
 
 ballQueue = {}
@@ -32,11 +38,12 @@ colors = {
     Red = {1.0, 0.0, 0.0, 1.0},
 }
 
-currentState = GameState.MENU
+currentState = GameState.START
 
 function love.load()
     LoadMenu.loadMenu()
     LoadGame.loadGame()
+    LoadStart.loadStart()
 end
 
 function love.keypressed(key)
@@ -47,6 +54,8 @@ function love.keypressed(key)
         KeyGame.handleInputGame(key)
     elseif (currentState == GameState.MENU) then
         KeyMenu.handleInputMenu(key)
+    elseif (currentState == GameState.START) then
+        KeyStart.handleInputStart(key)
     end
 end
 
@@ -55,6 +64,8 @@ function love.update(dt)
         UpdateGame.updateGame(dt)
     elseif (currentState == GameState.MENU) then
         UpdateMenu.updateMenu(dt)
+    elseif (currentState == GameState.START) then
+        UpdateStart.updateStart(dt)
     end
 end
 
@@ -65,5 +76,7 @@ function love.draw()
         DrawGame.drawGame()
     elseif (currentState == GameState.MENU) then
         DrawMenu.drawMenu()
+    elseif (currentState == GameState.START) then
+        DrawStart.drawStart()
     end
 end

@@ -54,7 +54,7 @@ function LoadGame.initCursor()
 end
 
 function LoadGame.createBackground()
-    background = love.graphics.newImage("assets/game_background.png")
+    background = love.graphics.newImage("assets/background.png")
     backgroundWidth = 800
     backgroundHeight = 600
 

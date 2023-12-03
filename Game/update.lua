@@ -1,6 +1,6 @@
 UpdateGame = {}
-
 newBalls = {}
+score = 0
 
 require "Game/load"
 
@@ -65,9 +65,6 @@ function UpdateGame.mergedBall(ball1, ball2, x, y)
             ballMergedType = BallTypes.Whirlipede
         end
     end
-
-    local text = ball1.name .. " + " .. ball2.name .. " = " .. ballMergedType.texturePath
-    love.window.setTitle(text)
     return ballMergedType
 end
 
@@ -85,6 +82,7 @@ function UpdateGame.RemoveBalls()
                 grosX = ball1.body:getX()
                 grosY = ball1.body:getY()
                 test = true
+                score = score + ball1.points
                 markedForRemoval2[i] = true
                 markedForRemoval2[j] = true
             end

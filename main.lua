@@ -15,6 +15,7 @@ require "Start/draw"
 require "Start/key"
 
 world = love.physics.newWorld(0, 9.81*64, true)
+love.window.setTitle("Pika Game")
 score = 0
 
 GameState = {

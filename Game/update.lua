@@ -58,11 +58,11 @@ function UpdateGame.mergedBall(ball1, ball2, x, y)
         elseif ball1.name == "Jigglypuff" then
             ballMergedType = BallTypes.Mareep
         elseif ball1.name == "Mareep" then
-            ballMergedType = BallTypes.Solrock
-        elseif ball1.name == "Solrock" then
             ballMergedType = BallTypes.Pikachu
-        elseif ball1.name == "Pikachu" then
+        elseif ball1.name == "Solrock" then
             ballMergedType = BallTypes.Whirlipede
+        elseif ball1.name == "Pikachu" then
+            ballMergedType = BallTypes.Solrock
         end
     end
     return ballMergedType

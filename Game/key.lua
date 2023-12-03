@@ -1,5 +1,9 @@
 KeyGame = {}
 
+require 'Game/load'
+
 function KeyGame.handleInputGame(key)
-    -- nothing for the moment
+    if key == 'x' then
+        LoadGame.spawnNewBall(BallTypes.Forretress, cursorX, cursorY)
+    end
 end

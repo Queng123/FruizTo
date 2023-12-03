@@ -41,7 +41,6 @@ function UpdateGame.UpdateCursor(dt)
         cursorX = gameAreaX + gameAreaWidth - 80
         cursorDirection = -1
     end
-    
     triangleVertices = {
         cursorX, cursorY,
         cursorX - 10, cursorY - 20,
@@ -106,6 +105,12 @@ function UpdateGame.updateGame(dt)
     UpdateGame.UpdateCursor(dt)
     UpdateGame.RemoveBalls()
     world:update(dt)
+    for i, newBall in ipairs(newBalls) do
+        pos_y = newBall.body:getY()
+        if (pos_y >= 800) then
+            currentState = GameState.END
+        end
+    end
 end
 
 function areBallsTouching(ball1, ball2)

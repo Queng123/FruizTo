@@ -16,9 +16,7 @@ function UpdateGame.spawnNewBall(ballType, x, y)
     ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
     ball.fixture:setRestitution(0.4)
     ball.texture = love.graphics.newImage(ball.texturePath)
-    print("OK")
     table.insert(newBalls, ball)
-    print("KO")
 end
 
 function UpdateGame.getRandomBallType()
@@ -70,16 +68,23 @@ function UpdateGame.mergedBall(ball1, ball2, x, y)
 
     local text = ball1.name .. " + " .. ball2.name .. " = " .. ballMergedType.texturePath
     love.window.setTitle(text)
-    UpdateGame.spawnNewBall(ballMergedType, x, y)
+    return ballMergedType
 end
 
 function UpdateGame.RemoveBalls()
     local markedForRemoval2 = {}
+    local ballMergedTypeTest
+    local test = false
+    local grosX
+    local grosY
 
     for i, ball1 in ipairs(newBalls) do
         for j, ball2 in ipairs(newBalls) do
             if i ~= j and areBallsTouching(ball1, ball2) and ball1.name == ball2.name then
-                UpdateGame.mergedBall(ball1, ball1, (ball1.body:getX() + ball2.body:getX()) / 2, (ball1.body:getY() + ball2.body:getY()) / 2)
+                ballMergedTypeTest = UpdateGame.mergedBall(ball1, ball2, ball1.body:getX(), ball1.body:getY())
+                grosX = ball1.body:getX()
+                grosY = ball1.body:getY()
+                test = true
                 markedForRemoval2[i] = true
                 markedForRemoval2[j] = true
             end
@@ -93,6 +98,9 @@ function UpdateGame.RemoveBalls()
                 ball.body:destroy()
             end
         end
+    end
+    if test == true then
+        UpdateGame.spawnNewBall(ballMergedTypeTest, grosX, grosY)
     end
 end
 

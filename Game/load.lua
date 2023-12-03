@@ -32,17 +32,17 @@ function LoadGame.initMap()
 
     left_wall = {}
     left_wall.body = love.physics.newBody(world, 0, 0, 'static')
-    left_wall.shape = love.physics.newRectangleShape(160, 300, 20, 400)
+    left_wall.shape = love.physics.newRectangleShape(160, 300 + 70, 20, 400)
     left_wall.fixture = love.physics.newFixture(left_wall.body, left_wall.shape)
 
     right_wall = {}
     right_wall.body = love.physics.newBody(world, 0, 0, 'static')
-    right_wall.shape = love.physics.newRectangleShape(640, 300, 20, 400)
+    right_wall.shape = love.physics.newRectangleShape(640, 300 + 70, 20, 400)
     right_wall.fixture = love.physics.newFixture(right_wall.body, right_wall.shape)
 
     floor = {}
     floor.body = love.physics.newBody(world, 0, 0, 'static')
-    floor.shape = love.physics.newRectangleShape(400, 470, 600, 20)
+    floor.shape = love.physics.newRectangleShape(400, 470 + 70, 600, 20)
     floor.fixture = love.physics.newFixture(floor.body, floor.shape)
 end
 
@@ -61,14 +61,17 @@ function LoadGame.createBackground()
     gameAreaWidth = 600
     gameAreaHeight = 400
     gameAreaX = (love.graphics.getWidth() - gameAreaWidth) / 2
-    gameAreaY = (love.graphics.getHeight() - gameAreaHeight) / 2
+    gameAreaY = (love.graphics.getHeight() - gameAreaHeight) / 2 + 70
 end
 
 function LoadGame.loadGame()
-    LoadGame.spawnNewBall(BallTypes.Jigglypuff, 200, 200)
-    LoadGame.spawnNewBall(BallTypes.Jigglypuff, 220, 100)
+    math.randomseed(os.time())
+    math.random(); math.random(); math.random()
     LoadGame.createBackground()
     LoadGame.initMap()
     LoadGame.initCursor()
     LoadGame.loadMusic()
+
+    UpdateGame.handleBallQueue(UpdateGame.getRandomBallType())
+    UpdateGame.handleBallQueue(UpdateGame.getRandomBallType())
 end

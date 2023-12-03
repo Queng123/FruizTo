@@ -18,6 +18,14 @@ GameState = {
     GAME = 2
 }
 
+ballQueue = {}
+
+ballTypesList = {
+    BallTypes.Forretress,
+    BallTypes.Jigglypuff,
+    BallTypes.Mareep,
+}
+
 colors = {
     Green = {0.1, 0.8, 0.1, 0.9},
     backgroundColor = {0.2, 0.2, 0.2, 1.0},

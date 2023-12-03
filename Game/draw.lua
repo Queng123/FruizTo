@@ -1,12 +1,6 @@
-Draw = {}
+DrawGame = {}
 
-local colors = {
-    Green = {0.1, 0.8, 0.1, 0.9},
-    backgroundColor = {0.2, 0.2, 0.2, 1.0},
-    Red = {1.0, 0.0, 0.0, 1.0},
-}
-
-function Draw.drawGame()
+function DrawGame.drawGame()
     love.graphics.setColor(0.1, 0.1, 0.1, 0.9)
     love.graphics.rectangle("fill", gameAreaX, gameAreaY, gameAreaWidth, gameAreaHeight)
 
@@ -24,8 +18,4 @@ function Draw.drawGame()
         local scaleY = ball.size * 2 / (ball.texture:getHeight() - 30)
         love.graphics.draw(ball.texture, ball.body:getX(), ball.body:getY(), 0, scaleX, scaleY, ball.texture:getWidth()/2, ball.texture:getHeight()/2)
     end
-end
-
-function Draw.drawMenu()
-    -- nothing
 end

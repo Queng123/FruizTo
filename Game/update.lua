@@ -4,6 +4,23 @@ newBalls = {}
 
 require "Game/load"
 
+function UpdateGame.spawnNewBall(ballType, x, y)
+    local ball = {
+        name = ballType.name,
+        size = ballType.size,
+        points = ballType.points,
+        texturePath = ballType.texturePath
+    }
+    ball.body = love.physics.newBody(world, x, y, 'dynamic')
+    ball.shape = love.physics.newCircleShape(ball.size)
+    ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
+    ball.fixture:setRestitution(0.4)
+    ball.texture = love.graphics.newImage(ball.texturePath)
+    print("OK")
+    table.insert(newBalls, ball)
+    print("KO")
+end
+
 function UpdateGame.getRandomBallType()
     local randomIndex = math.random(1, 3) -- Obtient un indice aléatoire
     return ballTypesList[randomIndex] -- Retourne le type de balle à cet indice
@@ -53,7 +70,7 @@ function UpdateGame.mergedBall(ball1, ball2, x, y)
 
     local text = ball1.name .. " + " .. ball2.name .. " = " .. ballMergedType.texturePath
     love.window.setTitle(text)
-    -- LoadGame.spawnNewBall(ballMergedType, x, y)
+    UpdateGame.spawnNewBall(ballMergedType, x, y)
 end
 
 function UpdateGame.RemoveBalls()

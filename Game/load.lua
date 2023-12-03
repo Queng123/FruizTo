@@ -4,21 +4,6 @@ function LoadGame.loadMusic()
     game_music = love.audio.newSource("assets/Echoes.wav", "static")
 end
 
-function LoadGame.spawnNewBall(ballType, x, y)
-    local ball = {
-        name = ballType.name,
-        size = ballType.size,
-        points = ballType.points,
-        texturePath = ballType.texturePath
-    }
-    ball.body = love.physics.newBody(world, x, y, 'dynamic')
-    ball.shape = love.physics.newCircleShape(ball.size)
-    ball.fixture = love.physics.newFixture(ball.body, ball.shape, 1)
-    ball.fixture:setRestitution(0.4)
-    ball.texture = love.graphics.newImage(ball.texturePath)
-    table.insert(newBalls, ball)
-end
-
 function LoadGame.initMap()
     platformY = gameAreaY + gameAreaHeight - 20
     platformHeight = 20

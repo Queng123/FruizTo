@@ -60,9 +60,9 @@ function UpdateGame.mergedBall(ball1, ball2, x, y)
         elseif ball1.name == "Mareep" then
             ballMergedType = BallTypes.Solrock
         elseif ball1.name == "Solrock" then
+            ballMergedType = BallTypes.Pikachu
+        elseif ball1.name == "Pikachu" then
             ballMergedType = BallTypes.Whirlipede
-        elseif ball1.name == "Whirlipede" then
-            ballMergedType = BallTypes.Forretress
         end
     end
 
@@ -80,7 +80,7 @@ function UpdateGame.RemoveBalls()
 
     for i, ball1 in ipairs(newBalls) do
         for j, ball2 in ipairs(newBalls) do
-            if i ~= j and areBallsTouching(ball1, ball2) and ball1.name == ball2.name then
+            if i ~= j and areBallsTouching(ball1, ball2) and ball1.name == ball2.name and ball1.name ~= "Whirlipede" and ball2.name ~= "Whirlipede" then
                 ballMergedTypeTest = UpdateGame.mergedBall(ball1, ball2, ball1.body:getX(), ball1.body:getY())
                 grosX = ball1.body:getX()
                 grosY = ball1.body:getY()

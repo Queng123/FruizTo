@@ -49,8 +49,8 @@ function UpdateMenu.updateMenu(dt)
         wheelAngle = 3941.2368016239
     end
     if state == 9 then
-        love.audio.stop(menu_music)
-        love.audio.play(game_music)
+        --love.audio.stop(menu_music)
+        --love.audio.play(game_music)
         UpdateMenu.updateAnimation(dt)
     end
     if state == 10 then

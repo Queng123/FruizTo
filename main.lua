@@ -14,6 +14,11 @@ require "Start/update"
 require "Start/draw"
 require "Start/key"
 
+require "End/load"
+require "End/update"
+require "End/draw"
+require "End/key"
+
 world = love.physics.newWorld(0, 9.81*64, true)
 love.window.setTitle("Pika Game")
 score = 0
@@ -22,6 +27,7 @@ GameState = {
     MENU = 1,
     GAME = 2,
     START = 4,
+    END = 8,
 }
 
 ballQueue = {}
@@ -44,6 +50,7 @@ function love.load()
     LoadMenu.loadMenu()
     LoadGame.loadGame()
     LoadStart.loadStart()
+    LoadEnd.loadEnd()
 end
 
 function love.keypressed(key)
@@ -56,6 +63,8 @@ function love.keypressed(key)
         KeyMenu.handleInputMenu(key)
     elseif (currentState == GameState.START) then
         KeyStart.handleInputStart(key)
+    elseif (currentState == GameState.END) then
+        KeyEnd.handleInputEnd(key)
     end
 end
 
@@ -66,6 +75,8 @@ function love.update(dt)
         UpdateMenu.updateMenu(dt)
     elseif (currentState == GameState.START) then
         UpdateStart.updateStart(dt)
+    elseif (currentState == GameState.END) then
+        UpdateEnd.updateEnd(dt)
     end
 end
 
@@ -78,5 +89,7 @@ function love.draw()
         DrawMenu.drawMenu()
     elseif (currentState == GameState.START) then
         DrawStart.drawStart()
+    elseif (currentState == GameState.END) then
+        DrawEnd.drawEnd()
     end
 end

@@ -27,7 +27,7 @@ function LoadMenu.loadMenu()
     smokeY = -400
 
     menu_music = love.audio.newSource("assets/menu.wav", "static")
-    --love.audio.play(menu_music)
+    love.audio.play(menu_music)
 
     forretress = love.graphics.newImage("assets/forretress.png")
     jigglypuff = love.graphics.newImage("assets/jigglypuff.png")

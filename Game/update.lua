@@ -20,8 +20,8 @@ function UpdateGame.spawnNewBall(ballType, x, y)
 end
 
 function UpdateGame.getRandomBallType()
-    local randomIndex = math.random(1, 3) -- Obtient un indice aléatoire
-    return ballTypesList[randomIndex] -- Retourne le type de balle à cet indice
+    local randomIndex = math.random(1, 3)
+    return ballTypesList[randomIndex]
 end
 
 function UpdateGame.handleBallQueue(newBallType)

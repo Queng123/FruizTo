@@ -37,8 +37,7 @@ function DrawGame.drawGame()
         love.graphics.draw(newBall.texture, newBall.body:getX(), newBall.body:getY(), 0, scaleX, scaleY, newBall.texture:getWidth()/2, newBall.texture:getHeight()/2)
     end
 
-
-    love.graphics.print("Score: " .. score, 630, 50)
+    love.graphics.print("Score: " .. score, scoreFont, 630, 50, 0, 1, 1, 0, 0, 0, 0)
 
     DrawGame.displayBallTypesInQueue()
 end
